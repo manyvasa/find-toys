@@ -1,0 +1,50 @@
+extends layouts/layout
+
+block content
+
+  header.menu
+    .profile
+      .profile__auth
+        a.link(href='#') Войти
+      .profile__reg
+        a.link(href='#') Регистрация
+  .wrap
+    .logo
+      h1 #findToys
+      p Правила просты: разгадываешь место, забираешь игрушку и код.
+      p Победитель вводит код, начинается новая игра.
+    .form-pass
+      a#btn_code(href='#')
+        b Код победителя:
+      form(method='POST', autocomplete='off', id='form1')
+        input.inp(name='code', id="form1_code", type='text', maxlength='5', placeholder='Введи код', required='')
+        br
+        input.inp(name='name', id="form1_name", type='text', maxlength='10', placeholder='Твой ник', required='')
+        br
+        button.link.btn(type='submit', value='Отправить') ok
+        .form-pass__msg
+    .event
+      .event__date
+        h2
+          | До старта:
+          span 2дн 5ч;
+      .event__info
+        .event__text
+          ul
+            li
+              b Размер:
+              | <?php echo $row['size']; ?>
+            li
+              b Район поиска:
+              | <?php echo $row['area']; ?>
+            li
+              b Подсказка:
+              br
+              p.
+                <?php echo $row['text']; ?>
+        .event__pic
+          img.pic(src='assets/styles/img/y22fzHfjkSE.jpg')
+
+
+
+
