@@ -11,9 +11,30 @@ class FindToys {
     public $wins_person = null;
     public $event_code = null;
 
+    public $request_rating = null;
+
     function __construct($db) {
         $this->db = $db;
     }
+
+
+
+    public function getMainContent() {
+        $request_rating = mysqli_query($this->db, "SELECT name, count_wins FROM persons");
+
+        echo "<table  id='rating__table'> 
+        <thead><tr><th style=\"
+    width: 200px\">Имя</th><th>Очки</th></tr></thead>";
+        while($row_rating = $request_rating->fetch_assoc())
+
+            echo "<tr>" .
+                "<td >" . $row_rating['name'] . "</td>" .
+                "<td >" . $row_rating['count_wins'] . "</td>" .
+                "</tr>";
+        echo "</table>";
+    }
+
+
 
     public function getPostParams () {
         if (
@@ -62,14 +83,14 @@ class FindToys {
             $this->switchEvent();
             $this->regPersonOrUpdate();
 
-            $sel_cnt = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT size, area, text FROM events WHERE state = true"));
+            $sel_cnt = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event, size, area, text FROM events WHERE state = true"));
             if ($sel_cnt){
                 echo json_encode(['success' => $sel_cnt]);
             } else {
                 echo json_encode(['error' => 'Interesting error']);
             }
         } else {
-            echo json_encode(['error' => 'Incorrect code']);
+            echo json_encode(['error' => 'Неправильный код']);
         }
     }
 }

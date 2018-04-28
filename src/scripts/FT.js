@@ -17,20 +17,23 @@ $(document).ready(function(){
 
                 if(response.success){
                     console.log(response);
-                    message.html('Ты молодец!! Смотри новый кейс');
+                    message.html('<span style="color: #3eb234">Код принят! Ивент обновился.</span>');
+                    $(".event__date h2").html('Ивент:<span>#'+response.success.id_event+'</span>');
                     $(".event__text li:nth-child(1)").html('<b>Размер:</b>до '+response.success.size+'см');
                     $(".event__text li:nth-child(2)").html('<b>Район поиска:</b>'+response.success.area);
                     $(".event__text li:nth-child(3)").html('<b>Подсказка:</b><br><p>'+response.success.text+'</p>');
                     $('#form1_code, #form1_name').val('');
+                    setTimeout(function(){
+                        message.html('')
+                    }, 5000);
 
 
                 } else {
-                    //message.html('<p>Неправильный код</p>');
                     message.html('<span style="color: #e80d0d">'+ response.error +'</span>');
                     $('#form1_code').val('');
-                    /*$(".event__text li:nth-child(1)").html('<b>Размер:</b>недоступно');
-                    $(".event__text li:nth-child(2)").html('<b>Район поиска:</b>недоступно');
-                    $(".event__text li:nth-child(3)").html('<b>Подсказка:</b><br><p>недоступно</p>');*/
+                    setTimeout(function(){
+                        message.html('')
+                    }, 4000);
                 }
             }
         });

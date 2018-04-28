@@ -1,6 +1,6 @@
 $grey: #f3f3f3;
 $grey2: #5d5d5d;
-
+$blue: #c7f1ec;
 
 body {
   background: white;
@@ -75,8 +75,12 @@ a {
   align-items: center;
 }
 .logo {
-  margin-top: 50px;
   text-align: center;
+  p {
+    background-color: $blue;
+    display: inline-block;
+    margin: 5px 0;
+  }
   h1 {
     font-family: 'Cabin Sketch', cursive;
     font-size: 3.5rem;
@@ -85,16 +89,15 @@ a {
 }
 
 .form-pass {
+  margin-top: 10px;
+  text-align: center;
   #form1{
     display: none;
     margin-top: 10px;
+    height: 175px;
   }
   &__msg{
-    .success {
-      font-size: 38px;
-      color: #029838;
-      font-weight: bolder;
-    }
+    margin-top: 10px;
   }
   .btn {
     width: 110px;
@@ -107,7 +110,7 @@ a {
   width: 90%;
   min-height: 400px;
   padding: 15px 5px;
-  margin-top: 30px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -127,7 +130,6 @@ a {
   &__info {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
   }
 
   &__text {
@@ -154,6 +156,20 @@ a {
   &__pic {
     flex-basis: 50%;
     text-align: center;
+  }
+}
+
+.rating {
+  margin-top: 10px;
+  text-align: center;
+
+  #rating__table {
+    border-collapse: collapse;
+    text-align: left;
+    th,td { padding: 2px 2px; }
+    tbody {
+      tr {border-top: 1px solid #d2d2d2;}
+    }
   }
 }
 
