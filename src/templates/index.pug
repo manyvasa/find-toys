@@ -1,52 +1,47 @@
 extends layouts/layout
 
+block title
+  title FindToys - найди игрушку в городе || Красноуфимск
+
 block content
 
-  //header.menu
-    .profile
-      .profile__auth
-        a.link(href='#') Войти
-      .profile__reg
-        a.link(href='#') Регистрация
-
-  .wrap
-    .logo
-      h1 #findToys
-      p Правила просты: разгадываешь место, забираешь игрушку и код.
-      p Победитель вводит код, начинается новый ивент.
-    .rating
-      b Топ 3 игрока
-      | <?php
-      |  $main = new FindToys($db);
-      |  $main->getMainContent(); ?>
-    .form-pass
-      a#btn_code(href='#')
-        b Код победителя:
-      form(method='POST', autocomplete='off', id='form1')
-        input.inp(name='code', id="form1_code", type='text', maxlength='5', placeholder='Введи код', required='')
-        br
-        input.inp(name='name', id="form1_name", type='text', maxlength='10', placeholder='Твой ник', required='')
-        br
-        button.link.btn(type='submit', value='Отправить') ok
-        .form-pass__msg
-    .event
-      .event__date
-        h2
-          | Ивент:
-          span #<?php echo $row['id_event']; ?>
-      .event__info
-        .event__text
-          ul
-            li
-              b Размер:
-              | до <?php echo $row['size']; ?> см
-            li
-              b Район поиска:
-              | <?php echo $row['area']; ?>
-            li
-              b Подсказка:
-              br
-              p.
-                <?php echo $row['text']; ?>
-        .event__pic
-          img.pic(src='build/assets/styles/img/y22fzHfjkSE.jpg')
+        .logo
+          h1
+            a(href='/') #findToys
+          p Правила просты: разгадываешь место, забираешь игрушку и код.
+          p Победитель вводит код, начинается новый ивент.
+            a(href='faq.php') (подробней..)
+        .rating
+          b Топ 3 игрока
+          | <?php $main->getRatingTable(); ?>
+        .form-pass
+          a#btn_code(href='#')
+            b Код победителя:
+          form(method='POST', autocomplete='off', id='form1')
+            input.inp(name='code', id="form1_code", type='text', maxlength='5', placeholder='Введи код', required='')
+            input.inp(name='name', id="form1_name", type='text', maxlength='10', placeholder='Твой ник', required='')
+            br
+            br
+            button.link.btn(type='submit', value='Отправить') ok
+            .form-pass__msg
+        .event
+          .event__date
+            h2
+              | Ивент:
+              span #<?php echo $row['id_event']; ?>
+          .event__info
+            .event__text
+              ul
+                li
+                  b Район поиска:
+                  | <?php echo $row['area']; ?>
+                li
+                  b Размер:
+                  | до <?php echo $row['size']; ?> см
+                li
+                  b Подсказка:
+                  br
+                  p.
+                    <?php echo $row['text']; ?>
+            .event__pic
+              <?php echo '<img class="pic" src="' .$row['url_img']. '">'; ?>

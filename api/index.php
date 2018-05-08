@@ -9,7 +9,9 @@ class FindToys {
     public $candidate_code = null;
 
     public $wins_person = null;
+
     public $event_code = null;
+    public $current_event = null;
 
     public $request_rating = null;
 
@@ -17,12 +19,10 @@ class FindToys {
         $this->db = $db;
     }
 
+    public function getRatingTable() {
+        $request_rating = mysqli_query($this->db, "SELECT name, count_wins FROM persons ORDER by count_wins DESC LIMIT 3");
 
-
-    public function getMainContent() {
-        $request_rating = mysqli_query($this->db, "SELECT name, count_wins FROM persons");
-
-        echo "<table  id='rating__table'> 
+        echo "<table  id='rating__table'>     
         <thead><tr><th style=\"
     width: 200px\">Имя</th><th>Очки</th></tr></thead>";
         while($row_rating = $request_rating->fetch_assoc())
@@ -34,8 +34,6 @@ class FindToys {
         echo "</table>";
     }
 
-
-
     public function getPostParams () {
         if (
             isset($_POST['name']) && isset($_POST['code']) &&
@@ -43,6 +41,7 @@ class FindToys {
         )
         {
             $this->candidate_name = strip_tags($_POST['name']);
+            $this->candidate_name = trim($this->candidate_name);
             $this->candidate_code = strip_tags($_POST['code']);
         }
     }
@@ -57,12 +56,14 @@ class FindToys {
     }
 
     public function getPlayingCode() {
-        $request_code = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT code, id_event FROM events WHERE state=true"));
+        $request_code = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT code FROM events WHERE state=true"));
         $this->event_code = $request_code['code'];
     }
 
     public function regPersonOrUpdate () {
-        if($this->candidate_name === $this->wins_person) {
+        //Нужна проверка без учёта регистра if($this->candidate_name === $this->wins_person) {
+        if(mb_strtolower($this->candidate_name, "UTF-8") === mb_strtolower($this->wins_person, "UTF-8")) {
+
             mysqli_query($this->db, "UPDATE persons SET count_wins=count_wins+1 WHERE name= '$this->candidate_name'");
         } else {
             mysqli_query($this->db, "INSERT INTO persons(Name, count_wins) VALUES ('".$this->candidate_name."', '1')");
@@ -70,11 +71,20 @@ class FindToys {
     }
 
     public function switchEvent() {
-        $request_code = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT code, id_event FROM events WHERE state=true"));
-        $next_event = $request_code['id_event'] + 1;
+        $current_event = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event FROM events WHERE state=true"));
+        $next_event_id = $current_event['id_event'] + 1;
 
-        mysqli_query($this->db, "UPDATE events SET state = false  WHERE state = true");
-        mysqli_query($this->db, "UPDATE events SET state = true  WHERE id_event = $next_event");
+        $count_events = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT COUNT(*) FROM events"));
+        $last_event = $count_events['COUNT(*)'];
+
+        if ($last_event < $next_event_id){
+            mysqli_query($this->db, "UPDATE events SET state = false  WHERE state = true");
+            mysqli_query($this->db, "UPDATE events SET state = true  WHERE id_event = '1'");
+        }elseif ($last_event >= $next_event_id){
+            mysqli_query($this->db, "UPDATE events SET state = false  WHERE state = true");
+            mysqli_query($this->db, "UPDATE events SET state = true  WHERE id_event = $next_event_id");
+        }
+
     }
 
     public function finishEvent() {
@@ -83,7 +93,7 @@ class FindToys {
             $this->switchEvent();
             $this->regPersonOrUpdate();
 
-            $sel_cnt = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event, size, area, text FROM events WHERE state = true"));
+            $sel_cnt = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event, size, area, text, url_img FROM events WHERE state = true"));
             if ($sel_cnt){
                 echo json_encode(['success' => $sel_cnt]);
             } else {
