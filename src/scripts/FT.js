@@ -1,9 +1,9 @@
 
 $(document).ready(function(){
     $("#form1").submit(function (){
-        var formID = $(this).attr('id');
-        var formNm = $('#' + formID);
-        var message = $(formNm).find(".form-pass__msg");
+        const formID = $(this).attr('id');
+        const formNm = $('#' + formID);
+        const message = $(formNm).find(".form-pass__msg");
 
         $.ajax({
             url: "/api/",
@@ -11,7 +11,7 @@ $(document).ready(function(){
             data: formNm.serialize(),
             cache: false,
             success: function(data){
-                var response = JSON.parse(data)
+                let response = JSON.parse(data);
 
                 if(response.success){
                     //console.log(response);
@@ -24,7 +24,7 @@ $(document).ready(function(){
                     $(".pic").attr("src", response.success.url_img);
                     $('#form1_code, #form1_name').val('');
                     setTimeout(function(){
-                        message.html('')
+                        message.html('');
                         $(".event__date h2").css('background-color', '#fff');
                         $(".event__text li:nth-child(1)").css('background-color', '#fff');
                         $(".event__text li:nth-child(2)").css('background-color', '#fff');
@@ -36,7 +36,7 @@ $(document).ready(function(){
                     message.html('<span style="color: #e80d0d">'+ response.error +'</span>');
                     $('#form1_code').val('');
                     setTimeout(function(){
-                        message.html('')
+                        message.html('');
                     }, 4000);
                 }
             }
@@ -44,7 +44,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $("#btn_code").click(function(e){
+    $(".btn_code").click(function(e){
         e.preventDefault();
         $("#form1").slideToggle(270);
     });

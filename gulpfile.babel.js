@@ -22,9 +22,9 @@ const paths = {
     src: 'src/scripts/**/*.js',
     dest: 'build/assets/scripts/'
   },
-  php: {
-    src: 'src/php/*.php',
-    dest: 'build/'
+  fonts: {
+    src: 'src/vendor/fonts/*.ttf',
+    dest: 'build/assets/styles/fonts/'
   },
   img: {
     src: 'src/img/**/*',
@@ -40,16 +40,6 @@ const paths = {
       dest: 'build/assets/scripts/'
     },
   },
-  /*bootstrap: {
-    styles: {
-      src: 'node_modules/bootstrap/dist/css/*',
-      dest: 'build/assets/styles/'
-    },
-    scripts: {
-      src: 'node_modules/bootstrap/dist/js/*',
-      dest: 'build/assets/scripts/'
-    },
-  }  */
 };
 
 /*
@@ -106,9 +96,9 @@ export function vendorScripts() {
 }
 
 /*========*/
-export function copyPhp() {
-  return gulp.src(paths.php.src)
-    .pipe(gulp.dest(paths.php.dest))
+export function vendorFonts() {
+  return gulp.src(paths.fonts.src)
+    .pipe(gulp.dest(paths.fonts.dest))
 }
 
 export function copyImg() {
@@ -116,15 +106,6 @@ export function copyImg() {
     .pipe(gulp.dest(paths.img.dest))
 }
 
-/*export function bsCss() {
-  return gulp.src(paths.bootstrap.styles.src)
-    .pipe(gulp.dest(paths.bootstrap.styles.dest))
-}*/
-
-/*export function bsJS() {
-  return gulp.src(paths.bootstrap.scripts.src)
-    .pipe(gulp.dest(paths.bootstrap.scripts.dest))
-}*/
 /*
  * You could even use `export as` to rename exported tasks
  */
@@ -153,7 +134,7 @@ export function serve() {
  * You can still use `gulp.task`
  * for example to set task names that would otherwise be invalid
  */
-const build = gulp.series(clean, gulp.parallel(styles, scripts, vendorStyles, vendorScripts, html,/* bsCss, bsJS,*/ copyPhp, copyImg));
+const build = gulp.series(clean, gulp.parallel(styles, scripts, vendorStyles, vendorScripts, html, vendorFonts, copyImg));
 gulp.task('build', build);
 
 /*
