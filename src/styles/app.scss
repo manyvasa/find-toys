@@ -24,6 +24,7 @@ body {
   padding: 0;
   margin: 0;
   letter-spacing: 1px;
+  line-height: 1.2;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -38,6 +39,14 @@ a {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
 .link {
   display: inline-block;
   color: #000;
@@ -48,6 +57,7 @@ a {
   background-color: #ffffff;
   transition: background-color 0.3s;
   font-weight: bold;
+  outline:none;
   &:hover {
     background-color: #e4e4e4;
     border-color: #adadad;
@@ -58,16 +68,21 @@ a {
   display: inline-block;
   height: 20px;
   width: 86px;
-  margin: 0 auto;
+  margin: 8px 5px;
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
   color: #555;
   border: 1px solid #ccc;
   border-radius: 50px;
+  outline:none;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  &:focus {
+    background-color: whitesmoke;
+  }
 }
+
 .pic {
   width: 100%;
   height: auto;
@@ -82,22 +97,17 @@ a {
   vertical-align: bottom;
 }
 
-.btn_code {
+.anim-svg {
+  animation: animationSvg linear 2s;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 0%;
+}
+
+.btn-code {
   font-weight: bold;
+  display: none;
 }
 
-.menu {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 60px;
-}
-
-.profile {
-  display: flex;
-  justify-content: space-around;
-  width: 300px;
-}
 .wrap {
   width: 80%;
   max-width: 1000px;
@@ -107,6 +117,7 @@ a {
   align-items: center;
   flex: 1;
 }
+
 .logo {
   text-align: center;
 
@@ -122,38 +133,48 @@ a {
   }
 }
 
-.form-pass {
+.inner {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  margin-top: 10px;
+}
+
+.user-form {
   margin-top: 10px;
   text-align: center;
+
   #form1{
-    display: none;
-    margin-top: 10px;
+    display: block;
     height: 115px;
   }
   &__msg{
     margin-top: 10px;
   }
-  .btn {
+  &__preloader {
+    display: none;
+  }
+  &__btn {
     width: 230px;
     border: 1px solid #ccc;
     margin: 0 auto;
     display: block;
   }
+  span {
+    font-weight: 700;
+  }
 }
+
 .event {
   width: 90%;
-  min-height: 400px;
+  min-height: 350px;
   padding: 15px 5px;
   margin-top: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top-left-radius: 15em 1em;
-  border-top-right-radius: 15em 1em;
-  border-bottom-left-radius: 15em 1em;
-  border-bottom-right-radius: 15em 1em;
-  border-top: 3px solid black;
-  border-bottom: 3px solid black;
+  border-bottom: 3px dashed $grey2;
+  border-top: 3px dashed $grey2;
   h2 {
     span {
       color: $grey2;
@@ -172,7 +193,6 @@ a {
       list-style: none;
       margin: 0;
       padding: 0px 40px;
-      //font-size: 1.6vw;
       li {
         padding: 10px 0;
         span {
@@ -180,17 +200,17 @@ a {
           text-transform: uppercase;
           font-weight: 700;
         }
+        em {
+          font-style: normal;
+        }
         p {padding: 0 20px;}
       }
     }
-
-
   }
   &__pic {
     flex-basis: 50%;
     text-align: center;
   }
-
   &__issues {
     width: 100%;
     h4 {
@@ -208,14 +228,14 @@ a {
       line-height: 1.6;
     }
   }
-
 }
 
-.rating {
+.user-rating {
   margin-top: 10px;
   text-align: center;
   span {font-weight: 700}
   #rating__table {
+    width: 230px;
     border-collapse: collapse;
     text-align: left;
     th,td { padding: 2px 2px; }
@@ -253,20 +273,64 @@ a {
 
 @media screen and (max-width: 767.98px) {
   .wrap {width: 95%;}
-  .event__info {
+  .inner {
     flex-direction: column;
+    align-items: center;
   }
-  .event__text {
-    margin-bottom: 10px;
-    margin-right: 0;
+  .event {
+    &__info {
+      flex-direction: column;
+    }
+    &__text {
+      margin-bottom: 10px;
+      margin-right: 0;
+    }
   }
+
   .pic {
     width: 85%;
   }
+  .btn-code {
+    display: block;
+  }
+
+  .user-form #form1 {
+    display: none;
+  }
+
+  .user-form>span {
+    display: none;
+  }
+
+
 }
 
 @media screen and (max-width: 575.98px) {
   .event__text ul {
-    padding: 0 10px;
+    padding: 0;
+  }
+  .logo h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@keyframes animationSvg{
+  0% {
+    transform:  rotate(0deg) ;
+  }
+  20% {
+    transform:  rotate(15deg) ;
+  }
+  40% {
+    transform:  rotate(-10deg) ;
+  }
+  60% {
+    transform:  rotate(5deg) ;
+  }
+  80% {
+    transform:  rotate(-5deg) ;
+  }
+  100% {
+    transform:  rotate(0deg) ;
   }
 }

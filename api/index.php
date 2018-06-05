@@ -110,8 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $event->getPostParams();
     $event->checkNameIfExists();
     $event->getPlayingCode();
+    sleep(3);
     $event->finishEvent();
 }
 
-//$ins_event = mysqli_query($db, "UPDATE events SET state=0  WHERE state=true");
-//$ins_event2 = mysqli_query($db, "UPDATE events SET state=1  WHERE id_event= $id_event");

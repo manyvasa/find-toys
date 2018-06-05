@@ -5,29 +5,43 @@ block title
 
 block content
 
-        .logo
+        header.logo
           h1
-            a(href='/') #findToys_ksk
+            a(href='/') #kskPlay
           p Правила просты: разгадываешь место, забираешь игрушку и код.
           p Победитель вводит код, начинается новый ивент.
             a(href='faq.php') (подробней...)
-        .rating
-          span Топ 3 игрока
-          | <?php $main->getRatingTable(); ?>
-        .form-pass
-          a.btn_code(href='#')
+        .inner
+          .user-rating
+            span Топ 3 игрока
+            | <?php $main->getRatingTable(); ?>
+          .user-form
             span Код победителя
-            svg.icon-svg(viewbox='0 0 32 32', version='1.1', width='18', height='18', aria-hidden='true')
-              path(d='M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z')
-              path(d='M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z')
-          form(method='POST', autocomplete='off', id='form1')
-            input.inp(name='code', id="form1_code", type='text', maxlength='5', placeholder='Введи код', required='')
-            input.inp(name='name', id="form1_name", type='text', maxlength='10', placeholder='Твой ник', required='')
-            br
-            br
-            button.link.btn(type='submit', value='Отправить') ok
-            .form-pass__msg
-        .event
+            a.btn-code(href='#')
+              span Код победителя
+              svg.icon-svg.anim-svg(viewbox='0 0 32 32', version='1.1', width='18', height='18', aria-hidden='true')
+                path(d='M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z')
+                path(d='M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z')
+            form(method='POST', autocomplete='off', id='form1')
+              input.inp(name='code', id="form1_code", type='text', maxlength='5', placeholder='Введи код', required='')
+              input.inp(name='name', id="form1_name", type='text', maxlength='10', placeholder='Твой ник', required='')
+              button.link.user-form__btn(type='submit', value='Отправить')
+                | отправить
+              .user-form__msg
+              .user-form__preloader
+                svg(xmlns:svg='http://www.w3.org/2000/svg', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.0', width='24px', height='24px', viewbox='0 0 128 128', xml:space='preserve')
+                  rect(x='0', y='0', width='100%', height='100%', fill='#FFFFFF')
+                  g
+                    circle(cx='16', cy='64', r='16', fill='#000000', fill-opacity='1')
+                    circle(cx='16', cy='64', r='14.344', fill='#000000', fill-opacity='1', transform='rotate(45 64 64)')
+                    circle(cx='16', cy='64', r='12.531', fill='#000000', fill-opacity='1', transform='rotate(90 64 64)')
+                    circle(cx='16', cy='64', r='10.75', fill='#000000', fill-opacity='1', transform='rotate(135 64 64)')
+                    circle(cx='16', cy='64', r='10.063', fill='#000000', fill-opacity='1', transform='rotate(180 64 64)')
+                    circle(cx='16', cy='64', r='8.063', fill='#000000', fill-opacity='1', transform='rotate(225 64 64)')
+                    circle(cx='16', cy='64', r='6.438', fill='#000000', fill-opacity='1', transform='rotate(270 64 64)')
+                    circle(cx='16', cy='64', r='5.375', fill='#000000', fill-opacity='1', transform='rotate(315 64 64)')
+                    animatetransform(attributename='transform', type='rotate', values='0 64 64;315 64 64;270 64 64;225 64 64;180 64 64;135 64 64;90 64 64;45 64 64', calcmode='discrete', dur='720ms', repeatcount='indefinite')
+        article.event
           .event__date
             h2
               | Ивент:
@@ -38,13 +52,13 @@ block content
                 li
                   svg.icon-svg(viewbox='0 0 32 32', version='1.1', width='24', height='24', aria-hidden='true')
                     path(fill-rule='evenodd', d='M16 0c-5.523 0-10 4.477-10 10 0 10 10 22 10 22s10-12 10-22c0-5.523-4.477-10-10-10zM16 16c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z')
-                  span Район поиска:
-                  | <?php echo $row['area']; ?>
+                  span Локация:
+                  em <?php echo $row['area']; ?>
                 li
                   svg.icon-svg(viewbox='0 0 32 32', version='1.1', width='24', height='24', aria-hidden='true')
                     path(fill-rule='evenodd', d='M24.11 10c0.566-0.402 1.11-0.851 1.608-1.348 1.044-1.044 1.742-2.328 1.966-3.616 0.246-1.412-0.115-2.723-0.988-3.597-0.697-0.697-1.641-1.065-2.73-1.065-1.551 0-3.185 0.744-4.483 2.043-2.077 2.077-3.288 4.945-3.94 6.991-0.482-2.056-1.444-4.833-3.313-6.702-1.003-1.003-2.285-1.518-3.495-1.518-0.989 0-1.931 0.344-2.633 1.046-1.562 1.562-1.351 4.306 0.471 6.128 0.65 0.65 1.409 1.189 2.21 1.638h-6.782v8h2v14h24v-14h2v-8h-5.89zM21.073 4.007c0.866-0.866 1.948-1.384 2.892-1.384 0.334 0 0.803 0.070 1.139 0.406 0.813 0.813 0.357 2.697-0.977 4.031-1.373 1.373-3.221 2.318-4.826 2.939h-1.584c0.58-1.798 1.627-4.264 3.356-5.993zM7.31 5.028c-0.022-0.285-0.002-0.82 0.381-1.203 0.32-0.32 0.743-0.387 1.042-0.387v0c0.664 0 1.358 0.313 1.904 0.859 1.059 1.058 1.93 2.743 2.521 4.871 0.016 0.057 0.031 0.115 0.047 0.171-0.057-0.015-0.114-0.031-0.171-0.047-2.128-0.591-3.813-1.462-4.871-2.521-0.495-0.495-0.805-1.13-0.853-1.743zM14 30h-8v-13h8v13zM14 16h-10v-4h10v4zM26 30h-8v-13h8v13zM28 16h-10v-4h10v4z')
                   span Размер:
-                  | до <?php echo $row['size']; ?> см
+                  em до <?php echo $row['size']; ?> см
                 li
                   svg.icon-svg(viewbox='0 0 32 32', version='1.1', width='24', height='24', aria-hidden='true')
                     path(fill-rule='evenodd', d='M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM3 16c0-7.18 5.82-13 13-13 3.424 0 6.538 1.325 8.86 3.488l-12.86 5.512-5.512 12.86c-2.164-2.322-3.488-5.436-3.488-8.86zM18.286 18.286l-8.003 3.43 3.43-8.003 4.573 4.573zM16 29c-3.424 0-6.539-1.325-8.86-3.488l12.86-5.512 5.512-12.86c2.164 2.322 3.488 5.436 3.488 8.86 0 7.18-5.82 13-13 13z')
