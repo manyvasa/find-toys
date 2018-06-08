@@ -1,4 +1,4 @@
-$grey: #f3f3f3;
+$grey: #d2d2d2;
 $grey2: #5d5d5d;
 $blue: #c7f1ec;
 
@@ -33,7 +33,7 @@ body {
 }
 a {
   text-decoration: none;
-  color: #5d5d5d;
+  color: $grey2;
   &:hover {
     color: #3a3737;
   }
@@ -49,7 +49,7 @@ a {
 
 .link {
   display: inline-block;
-  color: #000;
+  color: black;
   margin: auto;
   padding: 10px 7px;
   border-radius: 10px;
@@ -60,7 +60,7 @@ a {
   outline:none;
   &:hover {
     background-color: #e4e4e4;
-    border-color: #adadad;
+    border-color: $grey2;
   }
 }
 
@@ -71,12 +71,11 @@ a {
   margin: 8px 5px;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.42857143;
+  line-height: 1.4;
   color: #555;
-  border: 1px solid #ccc;
+  border: 1px solid $grey;
   border-radius: 50px;
   outline:none;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
   &:focus {
     background-color: whitesmoke;
@@ -92,7 +91,7 @@ a {
 .icon-svg {
   display: inline-block;
   stroke-width: 0;
-  fill: #5d5d5d;
+  fill: $grey2;
   margin-right: 5px;
   vertical-align: bottom;
 }
@@ -156,7 +155,7 @@ a {
   }
   &__btn {
     width: 230px;
-    border: 1px solid #ccc;
+    border: 1px solid $grey;
     margin: 0 auto;
     display: block;
   }
@@ -192,7 +191,7 @@ a {
     ul {
       list-style: none;
       margin: 0;
-      padding: 0px 40px;
+      padding: 0 40px;
       li {
         padding: 10px 0;
         span {
@@ -214,7 +213,7 @@ a {
   &__issues {
     width: 100%;
     h4 {
-      background: #c7f1ec;
+      background-color: #c7f1ec;
       color: $grey2;
       padding: 10px 0 10px 10px;
       margin-bottom: 1px;
@@ -222,7 +221,7 @@ a {
       cursor: pointer;
     }
     div {
-      background: #eaeaea;
+      background-color: #eaeaea;
       text-align: left;
       padding: 20px;
       line-height: 1.6;
@@ -240,7 +239,7 @@ a {
     text-align: left;
     th,td { padding: 2px 2px; }
     tbody {
-      tr {border-top: 1px solid #d2d2d2;}
+      tr {border-top: 1px solid $grey;}
     }
   }
 }

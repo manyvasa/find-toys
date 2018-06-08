@@ -11,6 +11,7 @@ class FindToys {
     public $wins_person = null;
 
     public $event_code = null;
+    public $event_id = null;
     public $current_event = null;
 
     public $request_rating = null;
@@ -56,23 +57,25 @@ class FindToys {
     }
 
     public function getPlayingCode() {
-        $request_code = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT code FROM events WHERE state=true"));
+        $request_code = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT code, id_event FROM events WHERE state=true"));
+        $this->event_id = $request_code['id_event'];
         $this->event_code = $request_code['code'];
     }
 
     public function regPersonOrUpdate () {
-        //Нужна проверка без учёта регистра if($this->candidate_name === $this->wins_person) {
+
         if(mb_strtolower($this->candidate_name, "UTF-8") === mb_strtolower($this->wins_person, "UTF-8")) {
 
             mysqli_query($this->db, "UPDATE persons SET count_wins=count_wins+1 WHERE name= '$this->candidate_name'");
         } else {
             mysqli_query($this->db, "INSERT INTO persons(Name, count_wins) VALUES ('".$this->candidate_name."', '1')");
         }
+        mysqli_query($this->db, "UPDATE events SET user_win = '".$this->candidate_name."' WHERE id_event = '".$this->event_id."'");
     }
 
     public function switchEvent() {
-        $current_event = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event FROM events WHERE state=true"));
-        $next_event_id = $current_event['id_event'] + 1;
+
+        $next_event_id = $this->event_id + 1;
 
         $count_events = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT COUNT(*) FROM events"));
         $last_event = $count_events['COUNT(*)'];
