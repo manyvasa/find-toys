@@ -21,7 +21,7 @@ class FindToys {
     }
 
     public function getRatingTable() {
-        $request_rating = mysqli_query($this->db, "SELECT name, count_wins FROM persons ORDER by count_wins DESC LIMIT 3");
+        $request_rating = mysqli_query($this->db, "SELECT name, count_wins FROM Persons ORDER by count_wins DESC LIMIT 3");
 
         echo "<table  id='rating__table'>     
         <thead><tr><th style=\"
