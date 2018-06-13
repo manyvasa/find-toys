@@ -6,6 +6,7 @@ import concat from 'gulp-concat';
 import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
 import cleanCSS from 'gulp-clean-css';
+import autoprefixer from 'gulp-autoprefixer';
 import del from 'del';
 const browserSync = require('browser-sync').create();
 
@@ -53,6 +54,10 @@ export const clean = () => del([ 'assets' ]);
 export function styles() {
   return gulp.src(paths.styles.src)
     .pipe(less())
+    .pipe(autoprefixer({
+        browsers: ['last 2 versions'],
+        cascade: false
+    }))
     .pipe(cleanCSS())
     // pass in options to the stream
     .pipe(rename({
