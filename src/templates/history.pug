@@ -1,0 +1,19 @@
+extends layouts/layout
+
+block title
+    title KskPlay - история прошлых ивентов || Красноуфимск
+
+block content
+
+    .logo
+        h1
+            a(href='/') #kskPlay
+    .user-rating
+        span Топ 3 игрока
+        | <?php $mainHistory->getRatingTable(); ?>
+    article.event
+        p.text-center.
+            История прошлых ивентов!
+        p.text-center.
+            У них уже есть свой герой, который разгадал, нашёл, забрал.
+        <?php renderHistory($db); ?>

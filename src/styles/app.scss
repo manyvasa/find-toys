@@ -39,6 +39,9 @@ a {
   }
 }
 
+.block {
+  display: block;
+}
 .text-center {
   text-align: center;
 }
@@ -188,6 +191,10 @@ a {
   &__text {
     flex-basis: 50%;
     margin-right: 10px;
+    .user-win {
+      font-weight: 700;
+      color: brown;
+    }
     ul {
       list-style: none;
       margin: 0;
@@ -263,7 +270,6 @@ a {
       font-weight: bold;
       color: $grey2;
       &:nth-child(2) {
-        text-decoration: underline;
         font-size: 10px;
       }
     }
