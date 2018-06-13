@@ -9,7 +9,7 @@ $mainFaq = new FindToys($db);
 function renderFaq($db) {
     $request_faq = mysqli_query($db, "SELECT questions,answers FROM faq");
 
-    echo "<div class='event__issues'>";
+    echo "<div class='event__issues accordion'>";
 
     while($faq_assoc = $request_faq->fetch_assoc())
         echo "<h4>" . $faq_assoc['questions'] . "</h4>" .

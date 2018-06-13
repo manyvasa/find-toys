@@ -8,7 +8,7 @@ $mainHistory = new FindToys($db);
 
 function renderHistory($db) {
     $requestHistory = mysqli_query($db, "SELECT id_event,area,size,text,url_img,user_win FROM events");
-    echo "<div class='event__issues'>";
+    echo "<div class='event__history accordion '>";
 
     while($History_assoc = $requestHistory->fetch_assoc())
 

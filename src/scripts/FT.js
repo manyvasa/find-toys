@@ -53,10 +53,10 @@ $(document).ready(function(){
         $("#form1").slideToggle(270);
     });
 
-    $('.event__issues > h4').next().hide();
-    $('.event__issues > h4').click(function(){
+    $('.accordion > h4').next().hide();
+    $('.accordion > h4').click(function(){
         $(this).next().slideToggle();
-        $('.event__issues > h4').not(this).next().stop(true,true).slideUp();
+        $('.accordion > h4').not(this).next().stop(true,true).slideUp();
     });
 
 });

@@ -186,6 +186,7 @@ a {
   &__info {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   &__text {
@@ -193,10 +194,10 @@ a {
     margin-right: 10px;
     .user-win {
       font-weight: 700;
-      color: brown;
+      color: #a52a2a;
     }
     ul {
-      list-style: none;
+      list-style-type: none;
       margin: 0;
       padding: 0 40px;
       li {
@@ -217,7 +218,7 @@ a {
     flex-basis: 50%;
     text-align: center;
   }
-  &__issues {
+  .accordion {
     width: 100%;
     h4 {
       background-color: #c7f1ec;
@@ -257,7 +258,7 @@ a {
   justify-content: space-around;
   align-items: center;
   ul {
-    list-style: none;
+    list-style-type: none;
     margin: 0;
     padding: 0;
     font-size: 9px;
