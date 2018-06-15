@@ -25,7 +25,9 @@ block content
             form(method='POST', autocomplete='off', id='form1')
               input.inp(name='code', id="form1_code", type='text', maxlength='5', placeholder='Введи код', required='')
               input.inp(name='name', id="form1_name", type='text', maxlength='10', placeholder='Твой ник', required='')
-              button.link.user-form__btn(type='submit', value='Отправить')
+              //button.link.user-form__btn(type='submit', value='Отправить')
+              //  | отправить
+              button.g-recaptcha.link.user-form__btn(data-sitekey='6LfP914UAAAAAIT5TvL_8UtDEchdDA06xAbpZGpp', data-callback='onSubmit' type='submit', value='Отправить')
                 | отправить
               .user-form__msg
               .user-form__preloader

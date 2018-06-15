@@ -16,6 +16,8 @@ class FindToys {
 
     public $request_rating = null;
 
+    public $reCap = null;
+
     function __construct($db) {
         $this->db = $db;
     }
@@ -35,7 +37,7 @@ class FindToys {
         echo "</table>";
     }
 
-    public function getPostParams () {
+/*    public function getPostParams () {
         if (
             isset($_POST['name']) && isset($_POST['code']) &&
             !empty($_POST['name']) && !empty($_POST['code'])
@@ -44,6 +46,49 @@ class FindToys {
             $this->candidate_name = strip_tags($_POST['name']);
             $this->candidate_name = trim($this->candidate_name);
             $this->candidate_code = strip_tags($_POST['code']);
+        }
+    }*/
+    //СДЕЛАТЬ ВЫВОД МЕСАЖ О НЕВАЛИДНОЙ КАПЧИ
+    public function getPostParams () {
+
+        function post_captcha($user_response) {
+            $fields_string = '';
+            $fields = array(
+                'secret' => '6LfP914UAAAAAGd0-GB5tZUXbrTL2zQxmzGaNGnT',
+                'response' => $user_response
+            );
+            foreach($fields as $key=>$value)
+                $fields_string .= $key . '=' . $value . '&';
+            $fields_string = rtrim($fields_string, '&');
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify');
+            curl_setopt($ch, CURLOPT_POST, count($fields));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            return json_decode($result, true);
+        }
+
+        $res = post_captcha($_POST['g-recaptcha-response']);
+
+        if (!$res['success']) {
+            // Если капча не правильная
+            //$this->reCap = $_POST['name'];
+        } else {
+            // Если капча правильная
+            if (
+                isset($_POST['name']) && isset($_POST['code']) &&
+                !empty($_POST['name']) && !empty($_POST['code'])
+            )
+            {
+                $this->candidate_name = strip_tags($_POST['name']);
+                $this->candidate_name = trim($this->candidate_name);
+                $this->candidate_code = strip_tags($_POST['code']);
+            }
         }
     }
 
@@ -113,7 +158,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $event->getPostParams();
     $event->checkNameIfExists();
     $event->getPlayingCode();
-    sleep(3);
     $event->finishEvent();
 }
 
