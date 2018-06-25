@@ -7,12 +7,14 @@ include 'api/inc/db.php';
 $mainHistory = new FindToys($db);
 
 function renderHistory($db) {
-    $requestHistory = mysqli_query($db, "SELECT id_event,area,size,text,url_img,user_win FROM events");
+    $requestHistory = mysqli_query($db, "SELECT id_event,area,text,url_img,user_win FROM events WHERE user_win NOT LIKE ''");
+    $rowHistory = mysqli_num_rows($requestHistory);
+
     echo "<div class='event__history accordion '>";
 
     while($History_assoc = $requestHistory->fetch_assoc())
 
-        echo "<h4>Ивент: #" . $History_assoc['id_event'] . " [". $History_assoc['area'] ."]</h4>" .
+        echo "<h4>Место: #" . $History_assoc['id_event'] . " [". $History_assoc['area'] ."]</h4>" .
                 "<div class=\"event__info\">" .
                     "<div class=\"event__text\">" .
                         "<svg class=\"icon-svg\" viewBox=\"0 0 32 32\" version=\"1.1\" width=\"24\" height=\"24\" aria-hidden=\"true\">" .
@@ -24,6 +26,10 @@ function renderHistory($db) {
                     "<div class=\"event__pic\"><img class=\"pic\" src=\" " . $History_assoc['url_img'] ." \"></div>" .
                 "</div>";
     echo "</div>";
+
+    if ($rowHistory === 0 ) {
+        echo "История пока пуста.";
+    }
 }
 
 

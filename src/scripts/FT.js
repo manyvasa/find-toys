@@ -5,7 +5,30 @@ function onSubmit(token) {
     //const formNm = $('#' + formID);
     const formNm = $('#form1');
     const message = $(formNm).find(".user-form__msg");
+    let nameField = $('#form1_name').val();
+    let codeField = $('#form1_code').val();
+    nameField = nameField.replace(/^\s+|\s+$/g, '');
+    codeField = codeField.replace(/^\s+|\s+$/g, '');
+    let captcha = grecaptcha.getResponse();
 
+
+    if (!nameField || !codeField) {
+        message.html('<span style="color: #e80d0d">Некорректные данные</span>');
+        grecaptcha.reset();
+        setTimeout(function(){
+            message.html('');
+        }, 2000);
+        return;
+    };
+
+    if (!captcha.length) {
+        message.html('<span style="color: #e80d0d">Ты не человек?</span>');
+        grecaptcha.reset();
+        setTimeout(function(){
+            message.html('');
+        }, 2000);
+        return;
+    }
     $.ajax({
         url: "/api/",
         type: "POST",
@@ -19,10 +42,9 @@ function onSubmit(token) {
             let response = JSON.parse(data);
             $('.user-form__preloader').css('display', 'none');
             $(':button').prop({ disabled: false }).css('cursor', 'auto');
-            console.log(response);
             if(response.success){
-                message.html('<span style="color: #3eb234">Ты молодец! Ивент сменился.</span>');
-                $(".event__date h2").html('Ивент:<span>#'+response.success.id_event+'</span>').css('background-color', '#c7f1ec');
+                message.html('<span style="color: #3eb234">Ты молодец! Задание сменилось.</span>');
+                $(".event__date h2").html('Место:<span>#'+response.success.id_event+'</span>').css('background-color', '#c7f1ec');
                 $(".event__text li:nth-child(1) em").html(response.success.area).css('background-color', '#c7f1ec');
                 $(".event__text li:nth-child(2) em").html('до '+response.success.size+' см').css('background-color', '#c7f1ec');
                 $(".event__text li:nth-child(3) p").html(response.success.text).css('background-color', '#c7f1ec');

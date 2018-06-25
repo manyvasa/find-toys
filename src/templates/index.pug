@@ -9,8 +9,8 @@ block content
           h1
             a(href='/') #kskPlay
           p Правила просты: разгадываешь место, забираешь игрушку и код.
-          p Победитель вводит код, начинается новый ивент.
-            a(href='faq.php') (подробней...)
+          p Победитель вводит код, открывается новое место для поиска.
+            a(href='/faq') (подробней...)
         .inner
           .user-rating
             span Топ 3 игрока
@@ -46,7 +46,7 @@ block content
         article.event
           .event__date
             h2
-              | Ивент:
+              | Место:
               span #<?php echo $row['id_event']; ?>
           .event__info
             .event__text

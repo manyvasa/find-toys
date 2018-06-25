@@ -16,7 +16,8 @@ class FindToys {
 
     public $request_rating = null;
 
-    public $reCap = null;
+    public $params_isValid = false;
+
 
     function __construct($db) {
         $this->db = $db;
@@ -37,21 +38,10 @@ class FindToys {
         echo "</table>";
     }
 
-/*    public function getPostParams () {
-        if (
-            isset($_POST['name']) && isset($_POST['code']) &&
-            !empty($_POST['name']) && !empty($_POST['code'])
-        )
-        {
-            $this->candidate_name = strip_tags($_POST['name']);
-            $this->candidate_name = trim($this->candidate_name);
-            $this->candidate_code = strip_tags($_POST['code']);
-        }
-    }*/
-    //СДЕЛАТЬ ВЫВОД МЕСАЖ О НЕВАЛИДНОЙ КАПЧИ
+
     public function getPostParams () {
 
-        function post_captcha($user_response) {
+        function postCaptcha($user_response) {
             $fields_string = '';
             $fields = array(
                 'secret' => '6LfP914UAAAAAGd0-GB5tZUXbrTL2zQxmzGaNGnT',
@@ -73,9 +63,9 @@ class FindToys {
             return json_decode($result, true);
         }
 
-        $res = post_captcha($_POST['g-recaptcha-response']);
+        $result_recaptcha = postCaptcha($_POST['g-recaptcha-response']);
 
-        if (!$res['success']) {
+        if (!$result_recaptcha['success']) {
             // Если капча не правильная
             //$this->reCap = $_POST['name'];
         } else {
@@ -85,17 +75,17 @@ class FindToys {
                 !empty($_POST['name']) && !empty($_POST['code'])
             )
             {
-                $this->candidate_name = strip_tags($_POST['name']);
-                $this->candidate_name = trim($this->candidate_name);
+                $this->candidate_name = trim(strip_tags($_POST['name']));
                 $this->candidate_code = strip_tags($_POST['code']);
+                $this->params_isValid = true;
             }
         }
     }
 
     public function checkNameIfExists() {
-        $query_pers = mysqli_query($this->db, "SELECT name FROM persons WHERE name= '".$this->candidate_name."'");
+        $query_pers = mysqli_query($this->db, "SELECT name FROM Persons WHERE name= '".$this->candidate_name."'");
 
-        if($query_pers){
+        if ($query_pers){
             $request_person = mysqli_fetch_assoc($query_pers);
             $this->wins_person = $request_person['name'];
         }
@@ -105,15 +95,16 @@ class FindToys {
         $request_code = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT code, id_event FROM events WHERE state=true"));
         $this->event_id = $request_code['id_event'];
         $this->event_code = $request_code['code'];
+
     }
 
     public function regPersonOrUpdate () {
 
         if(mb_strtolower($this->candidate_name, "UTF-8") === mb_strtolower($this->wins_person, "UTF-8")) {
 
-            mysqli_query($this->db, "UPDATE persons SET count_wins=count_wins+1 WHERE name= '$this->candidate_name'");
+            mysqli_query($this->db, "UPDATE Persons SET count_wins=count_wins+1 WHERE name= '$this->candidate_name'");
         } else {
-            mysqli_query($this->db, "INSERT INTO persons(Name, count_wins) VALUES ('".$this->candidate_name."', '1')");
+            mysqli_query($this->db, "INSERT INTO Persons(Name, count_wins) VALUES ('".$this->candidate_name."', '1')");
         }
         mysqli_query($this->db, "UPDATE events SET user_win = '".$this->candidate_name."' WHERE id_event = '".$this->event_id."'");
     }
@@ -136,7 +127,7 @@ class FindToys {
     }
 
     public function finishEvent() {
-        if($this->event_code === $this->candidate_code){
+        if($this->event_code === $this->candidate_code && trim($this->candidate_name) && $this->params_isValid){
 
             $this->switchEvent();
             $this->regPersonOrUpdate();
@@ -147,8 +138,13 @@ class FindToys {
             } else {
                 echo json_encode(['error' => 'Interesting error']);
             }
-        } else {
+        } else if ($this->event_code != $this->candidate_code && trim($this->candidate_name) && $this->params_isValid) {
             echo json_encode(['error' => 'Неправильный код']);
+
+        } else if ($this->event_code === $this->candidate_code && !$this->params_isValid) {
+            echo json_encode(['error' => 'Пройдите каптчу']);
+        } else if ($this->event_code === $this->candidate_code && !(trim($this->candidate_name)) && $this->params_isValid) {
+            echo json_encode(['error' => 'Некоректное имя']);
         }
     }
 }

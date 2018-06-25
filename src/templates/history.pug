@@ -1,7 +1,7 @@
 extends layouts/layout
 
 block title
-    title KskPlay - история прошлых ивентов || Красноуфимск
+    title KskPlay - история пройденных мест || Красноуфимск
 
 block content
 
@@ -13,7 +13,7 @@ block content
         | <?php $mainHistory->getRatingTable(); ?>
     article.event
         p.text-center.
-            История прошлых ивентов!
+            История пройденных мест!
         p.text-center.
             У них уже есть свой герой, который разгадал, нашёл, забрал.
         <?php renderHistory($db); ?>
