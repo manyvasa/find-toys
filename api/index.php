@@ -15,12 +15,36 @@ class FindToys {
     public $current_event = null;
 
     public $request_rating = null;
+    public $countDownTime = null;
 
     public $params_isValid = false;
 
 
     function __construct($db) {
         $this->db = $db;
+    }
+
+    public function getCountDownTime() {
+
+        $result_time = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT date_start FROM events WHERE state=true"));
+        $this->countDownTime = $result_time['date_start'];
+
+    }
+
+    public function getCurrentEvent() {
+
+        date_default_timezone_set("Asia/Yekaterinburg");
+
+        $this->getCountDownTime();
+        $t = time();
+        $s = strtotime($this->countDownTime);
+
+        if ( $t >= $s ) {
+            $result_currEvent = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event,size,area,text,url_img FROM events WHERE state=true"));
+            echo json_encode(['success' => $result_currEvent]);
+        } else {
+            echo json_encode(['error' => 'there will be time will be a place']);
+        }
     }
 
     public function getRatingTable() {
@@ -37,7 +61,6 @@ class FindToys {
                 "</tr>";
         echo "</table>";
     }
-
 
     public function getPostParams () {
 
@@ -155,5 +178,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $event->checkNameIfExists();
     $event->getPlayingCode();
     $event->finishEvent();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET['dateStart'])) {
+        $event = new FindToys($db);
+        $event->getCountDownTime();
+        echo $event->countDownTime;
+
+    } else if (isset($_GET['current'])) {
+        $event = new FindToys($db);
+        $event->getCurrentEvent();
+    }
 }
 

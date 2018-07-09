@@ -31,6 +31,10 @@ body {
   overflow-y: scroll;
   font-size: 14px;
 }
+ul,ol {
+  padding: 0;
+  margin: 0;
+}
 a {
   text-decoration: none;
   color: $grey2;
@@ -169,7 +173,7 @@ a {
 
 .event {
   width: 90%;
-  min-height: 350px;
+  min-height: 250px;
   padding: 15px 5px;
   margin-top: 15px;
   display: flex;
@@ -183,11 +187,31 @@ a {
       margin-left: 15px;
     }
   }
+  &__countDown {
+    display: none;
+    color: #000000;
+    text-align: center;
+    margin: auto;
+    h2 {font-weight: normal;}
+    li {
+      display: inline-block;
+      font-size: 21px;
+      list-style-type: none;
+      padding: 20px;
+      text-transform: uppercase;
+      span {
+        display: block;
+        font-size: 32px;
+      }
+    }
+  }
   &__info {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
   }
+
+  &__date {display: none;}
 
   &__text {
     flex-basis: 50%;
@@ -284,6 +308,9 @@ a {
       margin-bottom: 10px;
       margin-right: 0;
     }
+    &__countDown li {
+      font-size: 18px;
+    }
   }
 
   .pic {
@@ -307,6 +334,13 @@ a {
 @media screen and (max-width: 575.98px) {
   .event__text ul {
     padding: 0;
+  }
+  .event__countDown li {
+    font-size: 11px;
+    padding: 5px;
+  }
+  .event__countDown li>span{
+    font-size: 18px;
   }
   .logo h1 {
     font-size: 2.5rem;

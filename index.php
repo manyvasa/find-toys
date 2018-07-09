@@ -4,9 +4,6 @@ include 'api/index.php';
 include 'api/inc/db.php';
 
 
-$res = mysqli_query($db, "SELECT id_event,size,area,text,url_img FROM events WHERE state=true");
-$row = mysqli_fetch_assoc($res);
-
 $main = new FindToys($db);
 
 
