@@ -173,7 +173,7 @@ a {
 
 .event {
   width: 90%;
-  min-height: 250px;
+  min-height: 110px;
   padding: 15px 5px;
   margin-top: 15px;
   display: flex;
@@ -201,7 +201,9 @@ a {
       text-transform: uppercase;
       span {
         display: block;
-        font-size: 32px;
+        color: #a52a2a;
+        font-size: 48px;
+        font-family: 'Cabin Sketch',cursive;
       }
     }
   }
@@ -277,15 +279,19 @@ a {
 }
 
 .bottom {
-  height: 70px;
+  height: 90px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   ul {
+    li {
+      margin: 4px 0;
+    }
     list-style-type: none;
     margin: 0;
     padding: 0;
     font-size: 9px;
+    font-weight: 700;
     color: $grey2;
     &:nth-child(2) {
       font-size: 10px;
@@ -340,7 +346,7 @@ a {
     padding: 5px;
   }
   .event__countDown li>span{
-    font-size: 18px;
+    font-size: 42px;
   }
   .logo h1 {
     font-size: 2.5rem;

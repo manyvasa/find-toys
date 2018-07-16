@@ -1,4 +1,13 @@
 
+const bIdEvent = $(".event__date h2"),
+    fieldArea = $(".event__text li:nth-child(1) em"),
+    fieldSize = $(".event__text li:nth-child(2) em"),
+    fieldText = $(".event__text li:nth-child(3) p"),
+    fieldImg = $(".pic");
+
+const headAccordion = $('.accordion > h4');
+
+
 function onSubmit(token) {
 
     const formNm = $('#form1');
@@ -42,19 +51,11 @@ function onSubmit(token) {
             $(':button').prop({ disabled: false }).css('cursor', 'auto');
             if(response.success){
                 message.html('<span style="color: #3eb234">Ты молодец! Задание сменилось.</span>');
-                // $(".event__date h2").html('Место:<span>#'+response.success.id_event+'</span>').css('background-color', '#c7f1ec');
-                // $(".event__text li:nth-child(1) em").html(response.success.area).css('background-color', '#c7f1ec');
-                // $(".event__text li:nth-child(2) em").html('до '+response.success.size+' см').css('background-color', '#c7f1ec');
-                // $(".event__text li:nth-child(3) p").html(response.success.text).css('background-color', '#c7f1ec');
-                // $(".pic").attr("src", response.success.url_img);
                 init();
                 $('#form1_code, #form1_name').val('');
+
                 setTimeout(function(){
                     message.html('');
-                    // $(".event__date h2").css('background-color', '#fff');
-                    // $(".event__text li:nth-child(1) em").css('background-color', '#fff');
-                    // $(".event__text li:nth-child(2) em").css('background-color', '#fff');
-                    // $(".event__text li:nth-child(3) p").css('background-color', '#fff');
                 }, 5000);
 
 
@@ -75,30 +76,32 @@ function countDown(data) {
     const second = 1000,
         minute = second * 60,
         hour = minute * 60,
-        day = hour * 24;
+        day = hour * 24,
+        bCountDown = $('.event__countDown'),
+        bDate = $('.event__date'),
+        bInfo = $('.event__info');
+
     let arr = data.split(/[- :]/);
     let countDown = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]).getTime(),
-    //let countDown = new Date(data.replace(' ', 'T')).getTime(),
         currentTime = new Date().getTime(),
         distanceCheck = countDown - currentTime;
 
     if (distanceCheck < 0) {
         getCurrentEvent();
-        $('.event__countDown').css('display', 'none');
-        $('.event__date').css('display', 'block');
-        $('.event__info').css('display', 'flex');
+        bCountDown.css('display', 'none');
+        bDate.css('display', 'block');
+        bInfo.css('display', 'flex');
         return;
     }
 
     let x = setInterval(function() {
 
-
             let now = new Date().getTime(),
                 distance = countDown - now;
 
-            $('.event__countDown').css('display', 'block');
-            $('.event__date').css('display', 'none');
-            $('.event__info').css('display', 'none');
+            bCountDown.css('display', 'block');
+            bDate.css('display', 'none');
+            bInfo.css('display', 'none');
 
             document.getElementById('days').innerText = Math.floor(distance / (day)),
                 document.getElementById('hours').innerText = Math.floor((distance % (day)) / (hour)),
@@ -109,9 +112,9 @@ function countDown(data) {
              clearInterval(x);
                 getCurrentEvent();
 
-                $('.event__countDown').css('display', 'none');
-                $('.event__date').css('display', 'block');
-                $('.event__info').css('display', 'flex');
+                bCountDown.css('display', 'none');
+                bDate.css('display', 'block');
+                bInfo.css('display', 'flex');
             }
 
         }, second)
@@ -125,16 +128,19 @@ function getCurrentEvent() {
         success: function(data){
             let response = JSON.parse(data);
             if(response.success){
-                $(".event__date h2").html('Место:<span>#'+response.success.id_event+'</span>').css('background-color', '#c7f1ec');
-                $(".event__text li:nth-child(1) em").html(response.success.area).css('background-color', '#c7f1ec');
-                $(".event__text li:nth-child(2) em").html('до '+response.success.size+' см').css('background-color', '#c7f1ec');
-                $(".event__text li:nth-child(3) p").html(response.success.text).css('background-color', '#c7f1ec');
-                $(".pic").attr("src", response.success.url_img);
+
+                bIdEvent.html('Место:<span>#'+response.success.id_event+'</span>').css('background-color', '#c7f1ec');
+                fieldArea.html(response.success.area).css('background-color', '#c7f1ec');
+                fieldSize.html('до '+response.success.size+' см').css('background-color', '#c7f1ec');
+                fieldText.html(response.success.text).css('background-color', '#c7f1ec');
+                fieldImg.attr("src", response.success.url_img);
+
                 setTimeout(function(){
-                    $(".event__date h2").css('background-color', '#fff');
-                    $(".event__text li:nth-child(1) em").css('background-color', '#fff');
-                    $(".event__text li:nth-child(2) em").css('background-color', '#fff');
-                    $(".event__text li:nth-child(3) p").css('background-color', '#fff');
+
+                    bIdEvent.css('background-color', '#fff');
+                    fieldArea.css('background-color', '#fff');
+                    fieldSize.css('background-color', '#fff');
+                    fieldText.css('background-color', '#fff');
                 }, 2000);
             }
         }
@@ -162,10 +168,10 @@ $(document).ready(function(){
         $("#form1").slideToggle(270);
     });
 
-    $('.accordion > h4').next().hide();
-    $('.accordion > h4').click(function(){
+    headAccordion.next().hide();
+    headAccordion.click(function(){
         $(this).next().slideToggle();
-        $('.accordion > h4').not(this).next().stop(true,true).slideUp();
+        headAccordion.not(this).next().stop(true,true).slideUp();
     });
 
 });

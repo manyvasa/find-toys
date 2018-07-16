@@ -23,6 +23,32 @@ class FindToys {
     function __construct($db) {
         $this->db = $db;
     }
+//
+//    public function send($host, $port, $login, $password, $phone, $text, $sender = false, $wapurl = false ) {
+//        $fp = fsockopen($host, $port, $errno, $errstr);
+//        if (!$fp) {
+//            return "errno: $errno \nerrstr: $errstr\n";
+//        }
+//        fwrite($fp, "GET /send/" .
+//            "?phone=" . rawurlencode($phone) .
+//            "&text=" . rawurlencode($text) .
+//            ($sender ? "&sender=" . rawurlencode($sender) : "") .
+//            ($wapurl ? "&wapurl=" . rawurlencode($wapurl) : "") .
+//            " HTTP/1.0\n");
+//        fwrite($fp, "Host: " . $host . "\r\n");
+//        if ($login != "") {
+//            fwrite($fp, "Authorization: Basic " .
+//                base64_encode($login. ":" . $password) . "\n");
+//        }
+//        fwrite($fp, "\n");
+//        $response = "";
+//        while(!feof($fp)) {
+//            $response .= fread($fp, 1);
+//        }
+//        fclose($fp);
+//        list($other, $responseBody) = explode("\r\n\r\n", $response, 2);
+//        return $responseBody;
+//    }
 
     public function getCountDownTime() {
 
@@ -37,7 +63,7 @@ class FindToys {
 
         $this->getCountDownTime();
         $t = time();
-        $s = strtotime($this->countDownTime);
+        $s = strtotime($this->countDownTime. ' - 10 second');
 
         if ( $t >= $s ) {
             $result_currEvent = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event,size,area,text,url_img FROM events WHERE state=true"));
@@ -154,6 +180,9 @@ class FindToys {
 
             $this->switchEvent();
             $this->regPersonOrUpdate();
+//            $this->send("gate.iqsms.ru", 80, "z1531481248533", "204806",
+//                "79521318103", "text here", "iqsms", "wap.yousite.ru");
+
 
             $sel_cnt = mysqli_fetch_assoc(mysqli_query($this->db, "SELECT id_event, size, area, text, url_img FROM events WHERE state = true"));
             if ($sel_cnt){
@@ -185,6 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $event = new FindToys($db);
         $event->getCountDownTime();
         echo $event->countDownTime;
+
 
     } else if (isset($_GET['current'])) {
         $event = new FindToys($db);
